@@ -1,3 +1,7 @@
+try:
+    from functools import cached_property
+except:
+    from cached_property import cached_property
 from pytrials.utils import json_handler, csv_handler
 
 
@@ -21,7 +25,7 @@ class ClinicalTrials:
     def __init__(self):
         self.api_info = self.__api_info()
 
-    @property
+    @cached_property
     def study_fields(self):
         fields_list = json_handler(
             f"{self._BASE_URL}{self._INFO}study_fields_list?{self._JSON}"
@@ -114,3 +118,14 @@ class ClinicalTrials:
 
     def __repr__(self):
         return f"ClinicalTrials.gov client v{self.api_info[0]}, database last updated {self.api_info[1]}"
+
+
+ct = ClinicalTrials()
+# req = ct.get_study_fields(
+#     search_expr="Coronavirus+COVID",
+#     fields=["NCTId", "Condition", "BriefTitle"],
+#     max_studies=50,
+#     fmt="csv",
+# )
+
+print(ct.study_fields)

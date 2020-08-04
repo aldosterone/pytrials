@@ -1,9 +1,11 @@
 """Basic utilities module"""
+from functools import lru_cache
 import requests
 import csv
 import re
 
 
+@lru_cache(maxsize=10)
 def request_ct(url):
     """Performs a get request that provides a (somewhat) useful error message."""
     try:
